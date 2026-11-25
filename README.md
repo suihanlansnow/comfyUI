@@ -136,20 +136,44 @@
 
 ### 8.1 仓库范围
 
-本仓库只收录文档、启动/更新脚本与示例工作流。以下目录已被 `.gitignore` 排除：
+本仓库收录文档、启动/更新脚本、示例工作流，以及 `ComfyUI/` 核心源码快照（普通文件，不含上游提交历史）。
 
-- `ComfyUI/`：上游源码（自带独立 `.git`，指向 comfyanonymous/ComfyUI）、`models/`（182GB）、`custom_nodes/`（5.6GB）、`output/`、`user/` 等
-- `python_embeded/`：内嵌 Python 与依赖（5.8GB）
-- `tmp/`、`.screenshots/`、`*.safetensors`、`*.log`、`*.mp4`、`*.png`
+`.gitignore` 排除了以下内容：
 
-### 8.2 恢复步骤
+- `ComfyUI/.git`：上游仓库历史（已移至工作区外，见 8.2）
+- `ComfyUI/models`（182GB）、`custom_nodes`（5.6GB）、`output`、`input`、`temp`、`user`、`web`
+- `python_embeded/`（5.8GB）、`tmp/`、`.screenshots/`
+- 权重（`*.safetensors` 等）、日志、图片与视频文件
+
+### 8.2 上游 Git 历史处理
+
+上游 `.git` 已移至 `H:\ComfyUI_backup_20261123\ComfyUI.git.20261125`，因此本仓库不会带入 comfyanonymous/ComfyUI 的任何提交记录。
+
+官方更新脚本依赖本地 `.git`，更新前需临时还原，更新完成后再次移出：
+
+```powershell
+# 1. 还原上游 git
+Move-Item H:\ComfyUI_backup_20261123\ComfyUI.git.20261125 F:\ComfyUI\ComfyUI\.git
+
+# 2. 执行官方更新
+update\update_comfyui.bat
+
+# 3. 再次移出，避免上游历史进入本仓库
+Move-Item F:\ComfyUI\ComfyUI\.git H:\ComfyUI_backup_20261123\ComfyUI.git.20261125
+
+# 4. 提交更新后的源码快照
+git add -A
+git commit -m "Update ComfyUI source snapshot"
+```
+
+### 8.3 恢复步骤
 
 1. 下载 ComfyUI 便携版 v0.46.2 并解压到 `F:\ComfyUI`。
 2. 按本文档第 2 节升级 PyTorch 到 2.9.1+cu130、驱动到 621.24。
 3. 恢复 `models/`、`custom_nodes/` 与 `python_embeded/`（建议使用升级前的完整备份 `H:\ComfyUI_backup_20261123`）。
-4. 用本仓库的启动脚本与示例工作流覆盖对应文件。
+4. 用本仓库的启动脚本、示例工作流与 `ComfyUI/` 源码快照覆盖对应文件。
 5. 按第 5 节调整启动参数、页面文件与 TdrDelay。
 
-### 8.3 版本基线
+### 8.4 版本基线
 
 ComfyUI v0.46.2 / PyTorch 2.9.1+cu130 / Manager V3.43.2 / 驱动 621.24 / onnxruntime-gpu 1.32.0 / numpy 1.26.4。

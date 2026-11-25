@@ -1,8 +1,19 @@
 # ---- 大体积目录 / 运行时 ----
 python_embeded/
-ComfyUI/
 tmp/
 .screenshots/
+
+# ---- ComfyUI 源码：收录文件，但排除上游 .git 提交历史 ----
+ComfyUI/.git/
+ComfyUI/models/
+ComfyUI/custom_nodes/
+ComfyUI/output/
+ComfyUI/input/
+ComfyUI/temp/
+ComfyUI/user/
+ComfyUI/web/
+ComfyUI/previews/
+ComfyUI/*.log
 
 # ---- 模型与权重 ----
 *.safetensors
