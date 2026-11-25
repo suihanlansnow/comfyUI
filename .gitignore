@@ -1,0 +1,32 @@
+# ---- 大体积目录 / 运行时 ----
+python_embeded/
+ComfyUI/
+tmp/
+.screenshots/
+
+# ---- 模型与权重 ----
+*.safetensors
+*.ckpt
+*.pt
+*.pth
+*.bin
+*.gguf
+*.onnx
+
+# ---- 输出与媒体 ----
+*.mp4
+*.webm
+*.mov
+*.png
+*.jpg
+*.jpeg
+*.webp
+
+# ---- 日志与临时文件 ----
+*.log
+*.bak
+*.tmp
+Thumbs.db
+desktop.ini
+__pycache__/
+*.pyc
